@@ -1,0 +1,33 @@
+{
+	"name": "zmcms/website_forums",
+	"description": "Forum oraz komentarze serwisu internetowego",
+	"authors": [
+		{
+		"name": "Piotr Szkudlarek",
+		"email": "pszkudlarek@zoltanmultimedia.pl"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"Zmcms\\WebsiteForums\\": "src/",
+			"Zmcms\\WebsiteForums\\Backend\\Controllers\\": "src/backend/controllers/",
+			"Zmcms\\WebsiteForums\\Backend\\Db\\": "src/backend/db/",
+			"Zmcms\\WebsiteForums\\Backend\\Middleware\\": "src/backend/middleware/",
+			"Zmcms\\WebsiteForums\\Backend\\Routes\\": "src/backend/routes/",
+			"Zmcms\\WebsiteForums\\Frontend\\Controllers\\": "src/frontend/controllers/",
+			"Zmcms\\WebsiteForums\\Frontend\\Db\\": "src/frontend/db/",
+			"Zmcms\\WebsiteForums\\Frontend\\Middleware\\": "src/frontend/middleware/",
+			"Zmcms\\WebsiteForums\\Frontend\\Routes\\": "src/frontend/routes/",
+			"Zmcms\\WebsiteForums\\Migrations\\": "src/migrations/"
+		},
+		"files": ["src/helpers.php"]
+		},
+		"extra": {
+			"laravel": {
+			"providers": [
+				"Zmcms\\WebsiteForums\\ZmcmsWebsiteForumsServiceProvider"
+			]
+		}
+	},
+	"require": {}
+}
