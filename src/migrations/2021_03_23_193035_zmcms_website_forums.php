@@ -22,8 +22,8 @@ class ZmcmsWebsiteForums extends Migration{
 		$tblName=$tblNamePrefix.'website_forums_names'; // Nazwy forum
 		Schema::create($tblName, function($table){$table->string('token', 70);});
 		Schema::table($tblName, function($table){$table->string('langs_id', 5);}); // 
-		Schema::table($tblName, function($table){$table->string('name', 5);}); // 
-		Schema::table($tblName, function($table){$table->string('slug', 5)->unique();}); // 
+		Schema::table($tblName, function($table){$table->string('name', 150);}); // 
+		Schema::table($tblName, function($table){$table->string('slug', 150)->unique();}); // 
 		Schema::table($tblName, function($table){$table->text('intro');}); // 
 		Schema::table($tblName, function($table){$table->primary(['token', 'langs_id'], 'zmcmswfwnkey1');});
 		Schema::table($tblName, function($table){$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));});//Imię
