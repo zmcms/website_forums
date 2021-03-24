@@ -63,4 +63,70 @@ class Queries{
 			]);
 		}
 	}
+
+	/**
+	 * PODPINANIE FORUM POD OBIEKT, NP. ARTYKUŁ
+	 */
+	public static function forum_connect($token, $obj_type, $obj_token){
+		$forum = (Config('database.prefix')??'').'website_forums';
+		try{
+			DB::beginTransaction();
+				DB::table($forum)->where('token', $token)->update([
+					'obj_type'	=> $obj_type,
+					'obj_token'	=> $obj_token,
+				]);
+			DB::commit();
+			return json_encode([
+				'result'	=>	'ok',
+				'code'		=>	'ok',
+				'msg' 		=>	___('Podłączono forum'),
+			]);
+		}catch(\Illuminate\Database\QueryException $e){
+			DB::rollBack();
+			return json_encode([
+				'result'	=>	'error',
+				'code'		=>	$e->getCode(),
+				'msg' 		=>	___('Nie można podłączyć forum'),
+			]);
+		}
+	}
+
+	/**
+	 * Aktualizacja danych forum (nie komentarzy)
+	 */
+
+	public static function forum_update(){
+		$forum = (Config('database.prefix')??'').'website_forums';
+		$forum_name = (Config('database.prefix')??'').'website_forums_names'; // Nazwy forum
+		try{
+			DB::beginTransaction();
+				DB::table($forum)where('token', $token)->update([
+					'token'		=>	$data['data']['token'],
+					'access'	=>	$data['data']['access'],
+					'active'	=>	$data['data']['active'],
+					'obj_type'	=>	$data['data']['obj_type'],
+					'obj_token'	=>	$data['data']['obj_token'],
+				]);
+				DB::table($forum_name)where('token', $token)->update([
+					'token'		=>	$data['data']['token'],
+					'langs_id'	=>	$data['data']['langs_id'],
+					'name'		=>	$data['data']['name'],
+					'slug'		=>	$data['data']['slug'],
+					'intro'		=>	$data['data']['intro'],
+				]);
+			DB::commit();
+			return json_encode([
+				'result'	=>	'ok',
+				'code'		=>	'ok',
+				'msg' 		=>	___('Zaktualizowano forum'),
+			]);
+		}catch(\Illuminate\Database\QueryException $e){
+			DB::rollBack();
+			return json_encode([
+				'result'	=>	'error',
+				'code'		=>	$e->getCode(),
+				'msg' 		=>	___('Nie można zaktualizować forum'),
+			]);
+		}
+	}
 }
