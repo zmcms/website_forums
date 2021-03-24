@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\DB;
 use Session;
 use Request;
 class Queries{
-	public static function forum_create(){
+	public static function forum_create($data){
 		$forum = (Config('database.prefix')??'').'website_forums';
 		$forum_name = (Config('database.prefix')??'').'website_forums_names'; // Nazwy forum
 		try{
@@ -35,6 +35,31 @@ class Queries{
 				'result'	=>	'error',
 				'code'		=>	$e->getCode(),
 				'msg' 		=>	___('Nie można utworzyć nowego forum'),
+			]);
+		}
+	}
+
+
+	/**
+	 * USUWANIE FORUM
+	 */
+	public static function forum_delete($token){
+		$forum = (Config('database.prefix')??'').'website_forums';
+		try{
+			DB::beginTransaction();
+				DB::table($forum)->where('token', $token)->delete();
+			DB::commit();
+			return json_encode([
+				'result'	=>	'ok',
+				'code'		=>	'ok',
+				'msg' 		=>	___('Usunięto forum'),
+			]);
+		}catch(\Illuminate\Database\QueryException $e){
+			DB::rollBack();
+			return json_encode([
+				'result'	=>	'error',
+				'code'		=>	$e->getCode(),
+				'msg' 		=>	___('Nie można usunąć forum'),
 			]);
 		}
 	}
