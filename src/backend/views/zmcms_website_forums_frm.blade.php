@@ -17,7 +17,7 @@
 		<label class="micro12">
 		    <span class="micro12">Intro</span>
 		    <textarea class="richeditor micro12" id="wforums_intro" type="text" cols="25" rows="40" name="intro" placeholder="Wstęp do właściwej treści artykułu" >
-		        {!!$data[0]->intro!!}
+		        {!! $data[0]->intro ?? null!!}
 		    </textarea>
 		</label>
 		<label class="micro12">
