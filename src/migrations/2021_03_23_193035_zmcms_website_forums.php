@@ -12,8 +12,8 @@ class ZmcmsWebsiteForums extends Migration{
 		Schema::create($tblName, function($table){$table->string('token', 70);});
 		Schema::table($tblName, function($table){$table->string('access', 70)->default('*');}); // Info, które grupy użytkowników mają dostęp do danego forum
 		Schema::table($tblName, function($table){$table->string('active', 1);}); //Aktywny - 1, Nieaktywny -0. Aktywny się wyświetla, nieaktywny nie.
-		Schema::table($tblName, function($table){$table->string('obj_type', 70);});
-		Schema::table($tblName, function($table){$table->string('obj_token', 70);});
+		Schema::table($tblName, function($table){$table->string('obj_type', 70)->nullable();});
+		Schema::table($tblName, function($table){$table->string('obj_token', 70)->nullable();});
 		Schema::table($tblName, function($table){$table->primary(['token',], 'zmcmswfwnkey0');});
 		Schema::table($tblName, function($table){$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));});//Imię
 		Schema::table($tblName, function($table){$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));});//Imię
