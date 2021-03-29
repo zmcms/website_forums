@@ -21,7 +21,7 @@
 		    </textarea>
 		</label>
 		<label class="micro12">
-		<input id="wforums_token" class="micro12" type="text" name="token" value="{{$data[0]->slug ?? null}}" placeholder="Token">
+		<input id="wforums_token" class="micro12" type="text" name="token" value="{{$data[0]->token ?? null}}" placeholder="Token">
 		<input id="wforums_action" class="micro12" type="text" name="action" value="{{ $settings['action'] }}" placeholder="Akcja">
 		<input id="wforums_access" class="micro12" type="text" name="access" value="{{ $data[0]->access ?? '*' }}" placeholder="Dostęp">
 		<input id="wforums_langs_id" class="micro12" type="text" name="langs_id" value="{{ $data[0]->langs_id ?? Session::get('language') }}" placeholder="Język">
@@ -29,10 +29,6 @@
 	</label>
 		<button>{{ $settings['btnsave'] }}</button>
 	</form>
-	@if(isset($data))
-	{{Session::get('language')}}
-	<pre>{{print_r($data[0], true)}}</pre>
-	@endif
 @endsection
 @push('custom_js')
 <script type="text/javascript">
