@@ -7,24 +7,59 @@
     </div>
 </div>
 <div>
-    <form class="micro12" id="zmcms_website_offer_frm" method="post" enctype="multipart/form-data">
+    <form class="micro12" id="zmcms_website_forum_frm" method="post" enctype="multipart/form-data">
 		<label class="micro12">
 		    <span class="micro12 mini2">Nazwa</span>
-		    <input id="wforums_title_txt" class="micro12 mini10 required" type="text" name="names[name]" value="{{$data['data']->name ?? null}}" placeholder="Tytuł">
-		    <input id="wforums_title_slug" class="micro12 mini10 required" type="text" name="names[slug]" value="{{$data['data']->slug ?? null}}" placeholder="Slug">
-		</label>
-				<label class="micro12">
-		    <span class="micro12 mini2">Nazwa</span>
-		    
+		    <input id="wforums_title_txt" class="micro12 mini10 required" type="text" name="name" value="{{$data['data']->name ?? null}}" placeholder="Tytuł">
+		    <span class="micro12 mini2">Slug</span>
+		    <input id="wforums_title_slug" class="micro12 mini10 required" type="text" name="slug" value="{{ $data['data']->slug ?? null }}" placeholder="Slug">
 		</label>
 		<label class="micro12">
 		    <span class="micro12">Intro</span>
-		    <textarea class="richeditor micro12" type="text" cols="25" rows="40" name="names[intro]" placeholder="Wstęp do właściwej treści artykułu" >
+		    <textarea class="richeditor micro12" type="text" cols="25" rows="40" name="intro" placeholder="Wstęp do właściwej treści artykułu" >
 		        {{$data['data']->intro ?? null}}
 		    </textarea>
 		</label>
+		<label class="micro12">
+		<input id="wforums_token" class="micro12" type="text" name="token" value="{{$data['data']->slug ?? null}}" placeholder="Token">
+		<input id="wforums_action" class="micro12" type="text" name="action" value="{{ $settings['action'] }}" placeholder="Akcja">
+		<input id="wforums_access" class="micro12" type="text" name="access" value="{{ $data['data']->access ?? '*' }}" placeholder="Dostęp">
+		<input id="wforums_langs_id" class="micro12" type="text" name="langs_id" value="{{ $data['data']->langs_id ?? Session::get('language') }}" placeholder="Język">
+		
+	</label>
+		<button>{{ $settings['btnsave'] }}</button>
 	</form>
-	@if(isset($data))
-	<pre>{{print_r($data, true)}}</pre>
-	@endif
+	{{-- @if(isset($data)) --}}
+	{{-- {{Session::get('language')}} --}}
+	{{-- <pre>{{print_r($settings, true)}}</pre> --}}
+	{{-- @endif --}}
 @endsection
+@push('custom_js')
+<script type="text/javascript">
+	$('#wforums_title_txt').on('keyup', function(e){
+		$('#wforums_title_slug').val(str_slug($('#wforums_title_txt').val()));
+	});
+	$('#zmcms_website_forum_frm>button').on('click', function(e){
+		e.preventDefault();e.stopPropagation();
+		$.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+		$('#ajax_dialog_box').fadeIn( "slow", function() {});
+		$('#ajax_dialog_box_content').html('<div class="msg ok"><div class="loader"></div></div>');
+		tinymce.triggerSave();
+		$.ajax({
+			type: 'POST',
+			url: "/"+backend_prefix+"/forums/create/save",
+			data: new FormData(document.getElementById('zmcms_website_forum_frm')),
+			processData: false, contentType: false,
+			success: function(data){
+				$('#ajax_dialog_box_content').html(data);
+			},
+			statusCode: {
+				500: function(xhr) {$('#ajax_dialog_box_content .msg').html('<div class="msg error">'+xhr.status+'<br>'+xhr.responseText+'</div>');},
+				419: function(xhr){$('#ajax_dialog_box_content .msg').html('<div class="msg error"><pre>'+xhr.responseText+'</pre></div>');},
+				404: function(xhr){$('#ajax_dialog_box_content .msg').html('<div class="msg error">Nie znaleziono skryptu</div>');},
+				405: function(xhr){$('#ajax_dialog_box_content .msg').html('<div class="msg error">'+xhr.status+'<br>'+xhr.responseText+'</div>');}
+			}
+		});
+	})
+</script>
+@endpush
