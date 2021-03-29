@@ -29,6 +29,10 @@
 	</label>
 		<button>{{ $settings['btnsave'] }}</button>
 	</form>
+	{{-- @if(isset($data)) --}}
+	{{-- {{Session::get('language')}} --}}
+	{{-- <pre>{{print_r($data[0], true)}}</pre> --}}
+	{{-- @endif --}}
 @endsection
 @push('custom_js')
 <script type="text/javascript">
@@ -59,3 +63,15 @@
 	})
 </script>
 @endpush
+
+{{-- 
+
+token
+access
+active
+obj_type
+obj_token
+langs_id
+name
+slug
+intro --}}

@@ -31,4 +31,11 @@ Route::middleware(['BackendUser'])->group(function () {
 	Route::any($prefix.'/forums/configuration',
 		'Zmcms\WebsiteForums\Backend\Controllers\ZmcmsWebsiteForumsController@forums_configuration_frm')	
 		->name('website_forums');
+
+	/**
+	 * USUWANIE FORUM 
+	 */
+	Route::get($prefix.'/forums/delete/{token}',
+		'Zmcms\WebsiteForums\Backend\Controllers\ZmcmsWebsiteForumsController@forums_delete')
+		->name('website_forums');
 });

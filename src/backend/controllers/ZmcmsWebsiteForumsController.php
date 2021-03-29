@@ -5,14 +5,9 @@ use Zmcms\WebsiteForums\Backend\Db\Queries as Q;
 class ZmcmsWebsiteForumsController extends \App\Http\Controllers\Controller
 {
 	public function forums_list(Request $request){
-		$data = [];
-		$settings=[
-			'title'	=> ___('Lista forów'),
-			'action' => 'create',
-			'btnsave' => ___('Zapisz'),
-			'btnsave_and_publish' => __('Zapisz i opublikuj'),
-		];
-		return view('themes.'.(Config('zmcms.frontend.theme_name') ?? 'zmcms').'.backend.zmcms_website_forums_list', compact('data', 'settings'));
+		$r = $request->all();
+		$resultset = Q::forum_list();
+		return view('themes.'.(Config('zmcms.frontend.theme_name') ?? 'zmcms').'.backend.zmcms_website_forums_panel', compact('resultset'));
 	}
 	public function forums_create_frm(Request $request){
 		$data = $request->all();
@@ -36,16 +31,40 @@ class ZmcmsWebsiteForumsController extends \App\Http\Controllers\Controller
 				'msg' 		=>	___('Nie można utworzyć nowego forum'),
 			]);
 		switch ($data['action']) {
-			case 'create':	{ return Q::forum_create($data); break; }
-			case 'update':	{break;}
-			case 'delete':	{break;}
+			case 'create':	{ return Q::forum_create($data); break; } // Tworzenie nowego forum
+			case 'update':	{ return Q::forum_update($data); break; } // Aktualizacja podstawowych danych forum (bez aktywacji i podpięcia pod inne obiekty)
 			default:		{break;}
 		}
 
 		
 	}
-	public function forums_update_frm(Request $request){
-	
+	public function forums_delete($token){
+		return Q::forum_delete($token);
+	}
+	public function forums_update_frm($token){
+		$data = Q::forum_get($token);
+		if(count($data)>1) return json_encode([
+				'result'	=>	'error',
+				'code'		=>	'to_many_results',
+				'msg' 		=>	___('Nie można edytować forum. Spodziewano się pojedynczego rekordu'),
+			]);;
+		if(count($data)<1) return json_encode([
+				'result'	=>	'error',
+				'code'		=>	'not_found',
+				'msg' 		=>	___('Nie można edytować forum. Nie znaleziono rekordu'),
+			]);;
+
+		$settings=[
+			'title'	=> ___('Edycja forum'),
+			'action' => 'update',
+			'btnsave' => ___('Aktualizuj'),
+			'btnsave_and_publish' => __('Zapisz i opublikuj'),
+		];
+		
+		return view('themes.'.(Config('zmcms.frontend.theme_name') ?? 'zmcms').'.backend.zmcms_website_forums_frm', compact('data', 'settings'));
+
+
+		return ':'.$token;
 	}
 	public function forums_configuration_frm(Request $request){
 	
