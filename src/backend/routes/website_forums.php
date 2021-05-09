@@ -38,4 +38,14 @@ Route::middleware(['BackendUser'])->group(function () {
 	Route::get($prefix.'/forums/delete/{token}',
 		'Zmcms\WebsiteForums\Backend\Controllers\ZmcmsWebsiteForumsController@forums_delete')
 		->name('website_forums');
+	/**
+	 * LINKOWANIE FORUM 
+	 */
+	Route::get($prefix.'/forums/link/{token}',
+		'Zmcms\WebsiteForums\Backend\Controllers\ZmcmsWebsiteForumsController@forums_link_frm')
+		->name('website_forums');
+
+
+
+	
 });

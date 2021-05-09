@@ -66,6 +66,14 @@ class ZmcmsWebsiteForumsController extends \App\Http\Controllers\Controller
 
 		return ':'.$token;
 	}
+	/**
+	 * LINKOWANIE FORUM
+	 */
+	public function forums_link_frm($token){
+		$routes =  \Zmcms\WebsiteNavigations\Backend\Db\Queries::routes_list();
+		return view('themes.'.(Config('zmcms.frontend.theme_name') ?? 'zmcms').'.backend.zmcms_website_forums_ajax_routes', compact('routes'));
+		// return 'forums_link_frm: <pre>'.print_r($routes, true).'</pre>';	
+	}
 	public function forums_configuration_frm(Request $request){
 	
 	}
