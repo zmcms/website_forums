@@ -11,6 +11,8 @@ class ZmcmsWebsiteForumsServiceProvider extends ServiceProvider{
 
 	public function boot(){
 		$this->loadMigrationsFrom(__DIR__.'/migrations');
+		// $this->loadRoutesFrom(__DIR__.DIRECTORY_SEPARATOR.'backend'.DIRECTORY_SEPARATOR.'routes'.DIRECTORY_SEPARATOR.'website_forums.php');
+		// $this->loadRoutesFrom(__DIR__.DIRECTORY_SEPARATOR.'backend'.DIRECTORY_SEPARATOR.'routes'.DIRECTORY_SEPARATOR.'website_forums_console.php');
 		$this->publishes([
 			__DIR__.'/config' => base_path('config/zmcms/website_forums'),
 			__DIR__.'/backend/css' => base_path('public/themes/zmcms/backend/css/'),
