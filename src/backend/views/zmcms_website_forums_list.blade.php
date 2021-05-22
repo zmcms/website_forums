@@ -48,7 +48,3 @@
 	});
 </script>
 @endpush
-
-{{-- <pre>{{ --}}
-	{{-- print_r($resultset, true) --}}
-{{-- }}</pre> --}}
