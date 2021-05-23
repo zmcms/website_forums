@@ -2,6 +2,15 @@ $(document).ready(function(){
 	$('#zwf_comment_frm').on('submit', function(e){
 		var backend_prefix = $('meta[name="backend-prefix"]').attr('content');
 		e.preventDefault();e.stopPropagation();
+		action = $("input[name='_action']").val();
+		switch(action){
+			case 'forms.comment_form.create.comment' :{ return create_comment(); break;}
+			case 'forms.comment_form.create.comment2' :{alert(2); break;}
+		}
+		return false;
+	});
+	function create_comment(){
+		// alert(11); 
 		$('#ajax_dialog_box').fadeIn( "slow", function() {});
 		$('#ajax_dialog_box_content').html('<div class="msg ok"><div class="loader"></div></div>');
 		$.ajax({
@@ -11,9 +20,6 @@ $(document).ready(function(){
 				processData: false,
 				contentType: false,
 				success: function(data){
-
-					// var resultset = JSON.parse(data);
-					// $('#ajax_dialog_box_content').html('<div class="msg '+resultset.result+'">'+resultset.code+': '+resultset.msg+'</div>');
 					$('#ajax_dialog_box_content').html('<div class="msg ok">'+data+'</div>');
 				},
 				statusCode: {
@@ -24,5 +30,5 @@ $(document).ready(function(){
 				}
 		});
 		return false;
-	});
+	}
 });
