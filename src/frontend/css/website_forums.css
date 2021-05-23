@@ -1,8 +1,12 @@
 @media only screen and (min-width: 1px){
-	#zwf_comment_frm input, #zwf_comment_frm textarea{
-		width: 100%;	
-	}	
-}
+	#zwf_comment_frm_open{display: none;}
+	#zwf_comment_frm_open ~ #zwf_comment_frm {max-height: 0;overflow: hidden;}
+	#zwf_comment_frm_open:checked ~ #zwf_comment_frm{max-height: 100vh;	}
+	#zwf_comment_frm_open ~ .open_frm{display: inline-block;}
+	#zwf_comment_frm_open ~ .close_frm{display: none;}
+	#zwf_comment_frm_open:checked ~ .open_frm{display: none;}
+	#zwf_comment_frm_open:checked ~ .close_frm{display: inline-block;}
+	#zwf_comment_frm input, #zwf_comment_frm textarea{width: 100%;}
 @media only screen and (min-width: 800px){
  	#zwf_comment_frm input{
 		width: 48%;	
